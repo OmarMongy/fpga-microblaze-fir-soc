@@ -85,8 +85,9 @@ The two domains communicate through AXI interfaces.
                        │
                        ▼
                  Next Stage
-
+```
 ## Complete Roadmap
+```text
 ┌─────────────────────────────┐
 │ 1. Design RTL Accelerator   │
 └──────────────┬──────────────┘
