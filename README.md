@@ -28,7 +28,7 @@ The key objective is to demonstrate the **hardware/software interface and partit
 
 ## System Architecture
 
-![System Architecture](docs/system_architecture.png)
+![System Architecture]([docs/system_architecture](https://github.com/OmarMongy/fpga-microblaze-fir-soc/blob/main/docs/hw_sw_partitioning.jpg).png)
 
 The system is divided into two main domains:
 
