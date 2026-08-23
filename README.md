@@ -54,7 +54,7 @@ The two domains communicate through AXI interfaces.
 ```text
                     SOFTWARE
               ┌─────────────────┐
-              │    MicroBlaze    │
+              │    MicroBlaze   │
               │                 │
               │ FIR Control     │
               │ Coefficient     │
