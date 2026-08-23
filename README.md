@@ -135,7 +135,7 @@ The two domains communicate through AXI interfaces.
 └──────────────┬──────────────┘
                ▼
 ┌─────────────────────────────┐
-│ 12. Associate ELF with     │
+│ 12. Associate ELF with      │
 │     MicroBlaze Simulation   │
 └──────────────┬──────────────┘
                ▼
