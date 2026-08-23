@@ -1,1 +1,87 @@
-# fpga-microblaze-fir-soc
+# MicroBlaze-Based FPGA SoC for Programmable FIR Filtering
+
+A simulation-based FPGA SoC demonstrating **hardware/software partitioning** using a MicroBlaze processor and a programmable RTL FIR filter.
+
+The project explores how software running on an embedded processor can configure a hardware DSP accelerator through **AXI4-Lite**, while high-throughput sample data is transferred through **AXI4-Stream**.
+
+The complete hardware/software system is functionally co-simulated in Vivado without requiring a physical FPGA board, QEMU, or PetaLinux.
+
+---
+
+## Overview
+
+Digital signal-processing algorithms are often divided between software running on an embedded processor and dedicated hardware accelerators implemented in FPGA fabric.
+
+This project demonstrates that concept using a programmable FIR filter:
+
+- MATLAB is used for filter design, coefficient generation, signal generation, and golden-model verification.
+- The FIR filter is implemented in RTL.
+- The FIR is integrated as an AXI-based IP.
+- A MicroBlaze processor configures the FIR coefficients through AXI4-Lite.
+- Input and output samples are transferred using AXI4-Stream.
+- The MicroBlaze software is compiled into an ELF executable.
+- Vivado simulation executes the processor software together with the RTL hardware.
+
+The key objective is to demonstrate the **hardware/software interface and partitioning**, rather than simply implementing a standalone FIR filter.
+
+---
+
+## System Architecture
+
+![System Architecture](docs/system_architecture.png)
+
+The system is divided into two main domains:
+
+### Software / Control Plane
+
+The MicroBlaze processor is responsible for:
+
+- Configuring the FIR filter
+- Writing the filter coefficients
+- Controlling the accelerator
+- Reading status information
+
+### Hardware / Data Plane
+
+The FPGA fabric is responsible for:
+
+- Receiving streaming samples
+- Performing the FIR filtering operation
+- Producing the filtered streaming output
+
+The two domains communicate through AXI interfaces.
+
+```text
+                    SOFTWARE
+              ┌─────────────────┐
+              │    MicroBlaze    │
+              │                 │
+              │ FIR Control     │
+              │ Coefficient     │
+              │ Configuration   │
+              └────────┬────────┘
+                       │
+                    AXI4-Lite
+                       │
+                       ▼
+              ┌─────────────────┐
+              │ Programmable    │
+              │ FIR Registers   │
+              └────────┬────────┘
+                       │
+═══════════════════════╪════════════════════════
+                       │
+                    HARDWARE
+                       │
+             AXI4-Stream Input
+                       │
+                       ▼
+              ┌─────────────────┐
+              │   FIR Filter    │
+              │      RTL        │
+              └────────┬────────┘
+                       │
+             AXI4-Stream Output
+                       │
+                       ▼
+                 Next Stage
